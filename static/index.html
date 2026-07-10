@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NEONWIRE</title>
+<style>
+  body { background:#0B0E1A; color:#F4F2FC; font-family:system-ui,sans-serif; margin:0; padding:24px; }
+  h1 { color:#4F7CFF; }
+  .card { background:#131E36; border-radius:12px; padding:16px; margin-bottom:12px; }
+  .score { color:#34D399; font-weight:bold; }
+  .status { color:#7C89AD; font-size:13px; margin-bottom:20px; }
+</style>
+</head>
+<body>
+  <h1>NEONWIRE</h1>
+  <div class="status" id="status">Loading stories...</div>
+  <div id="feed"></div>
+
+  <script>
+    fetch('/stories')
+      .then(r => r.json())
+      .then(stories => {
+        document.getElementById('status').textContent =
+          stories.length + ' verified stories live.';
+        document.getElementById('feed').innerHTML = stories.map(s => `
+          <div class="card">
+            <h3>${s.title}</h3>
+            <p>${s.summary}</p>
+            <p>${s.location_name || ''} — <span class="score">${Math.round(s.score)}% verified</span></p>
+          </div>
+        `).join('');
+      })
+      .catch(() => {
+        document.getElementById('status').textContent =
+          'Could not reach the backend yet.';
+      });
+  </script>
+</body>
+</html>
