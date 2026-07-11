@@ -335,4 +335,581 @@ const UI_STRINGS = {
     trending:"अभी ट्रेंडिंग", howWorks:"सत्यापन कैसे काम करता है",
     howText:"हर खबर को स्वतंत्र स्रोतों में मिलाया जाता है — अंतरराष्ट्रीय समाचार एजेंसियां (रॉयटर्स, एपी, एएफपी), क्षेत्रीय प्रेस (हिंदुस्तान टाइम्स, टाइम्स ऑफ इंडिया, द गार्जियन, अल जज़ीरा), और आधिकारिक चैनल (मंत्रालय, पीआईबी, WHO)। कोई खबर तभी प्रकाशित होती है जब पर्याप्त स्वतंत्र स्रोत मुख्य तथ्यों पर सहमत हों। विरोधाभासों को छुपाया नहीं, दिखाया जाता है।",
     footer:"NEONWIRE प्रोटोटाइप · केवल डिज़ाइन अवधारणा, लाइव समाचार फ़ीड से जुड़ा नहीं · प्रदर्शन उद्देश्यों के लिए बनाया गया",
-    noMatch:"अभी इस खोज से कोई सत्यापित खबर मेल नहीं खाती। यह प्रोटोटाइप केवल कुछ गिने-चुने शहरों क
+    noMatch:"अभी इस खोज से कोई सत्यापित खबर मेल नहीं खाती। यह प्रोटोटाइप केवल कुछ गिने-चुने शहरों के लिए नमूना कवरेज रखता है — इनमें से कोई एक आज़माएं:",
+    verifyScore:"क्रॉस-सत्यापन स्कोर", confirms:"पुष्टि करता है", differs:"असहमत है", official:"आधिकारिक",
+    note:(ok,total)=>`${total} में से ${ok} ट्रैक किए गए स्रोत इस खबर के मुख्य तथ्यों की स्वतंत्र रूप से पुष्टि करते हैं। जहां स्रोत असहमत हों, वहां अंतर को छुपाने के बजाय दिखाया जाता है। यह एक प्रोटोटाइप है — दिखाए गए स्रोत उदाहरणात्मक हैं।`,
+    machineNote:"इस भाषा में शीर्षक और सारांश इस प्रोटोटाइप के लिए पहले से लिखे गए हैं, यह लाइव मशीन अनुवाद नहीं है।",
+  },
+  ar: {
+    searchPlaceholder:"ابحث عن أخبار موثّقة حول العالم...", locPlaceholder:"مثال: طوكيو، 110001، سيدني",
+    heroLine1:"فقط ما هو", heroAccent:"موثّق.",
+    heroSub:"يتم التحقق من كل خبر في هذا الموجز عبر أكثر من 50 وسيلة إعلامية ووكالة أنباء ومصدرًا حكوميًا رسميًا قبل عرضه. نموذج أولي — البيانات أدناه توضيحية وليست مباشرة.",
+    hud1:"مصادر تتم مراقبتها", hud2:"أخبار منشورة", hud3:"متوسط التوافق", hud4:"مصادر رسمية مذكورة",
+    trending:"الأكثر تداولًا", howWorks:"كيف يعمل التحقق",
+    howText:"تتم مطابقة كل خبر عبر مصادر مستقلة — وكالات دولية (رويترز، أسوشيتد برس، فرانس برس)، صحافة إقليمية (هندستان تايمز، تايمز أوف إنديا، الغارديان، الجزيرة)، وقنوات رسمية (وزارات، مكتب المعلومات الصحفية، منظمة الصحة العالمية). لا يُنشر الخبر إلا عندما تتفق مصادر مستقلة كافية على الحقائق الأساسية. يتم عرض التناقضات لا إخفاؤها.",
+    footer:"نموذج NEONWIRE الأولي · مفهوم تصميم فقط، غير متصل بخلاصات أخبار مباشرة · لأغراض العرض التوضيحي",
+    noMatch:"لا توجد أخبار موثّقة مطابقة لهذا البحث حتى الآن. يحتوي هذا النموذج الأولي على تغطية تجريبية لعدد محدود من المدن فقط — جرّب إحدى هذه:",
+    verifyScore:"درجة التحقق المتقاطع", confirms:"يؤكد", differs:"يختلف", official:"رسمي",
+    note:(ok,total)=>`يؤكد ${ok} من أصل ${total} من المصادر المتابَعة بشكل مستقل الحقائق الأساسية لهذا الخبر. وحين تختلف المصادر، يتم عرض الاختلاف بدلاً من إخفائه. هذا نموذج أولي — المصادر المعروضة توضيحية.`,
+    machineNote:"العناوين والملخصات بهذه اللغة مكتوبة مسبقًا لهذا النموذج الأولي، وليست ترجمة آلية مباشرة.",
+  },
+};
+
+const CATEGORY_LABELS = {
+  en: {All:"All", World:"World", Politics:"Politics", Business:"Business", Technology:"Technology", Climate:"Climate", Health:"Health", Sports:"Sports", Science:"Science", Local:"Local"},
+  es: {All:"Todo", World:"Mundo", Politics:"Política", Business:"Negocios", Technology:"Tecnología", Climate:"Clima", Health:"Salud", Sports:"Deportes", Science:"Ciencia", Local:"Local"},
+  fr: {All:"Tout", World:"Monde", Politics:"Politique", Business:"Affaires", Technology:"Technologie", Climate:"Climat", Health:"Santé", Sports:"Sport", Science:"Science", Local:"Local"},
+  hi: {All:"सभी", World:"विश्व", Politics:"राजनीति", Business:"व्यापार", Technology:"तकनीक", Climate:"जलवायु", Health:"स्वास्थ्य", Sports:"खेल", Science:"विज्ञान", Local:"स्थानीय"},
+  ar: {All:"الكل", World:"العالم", Politics:"سياسة", Business:"أعمال", Technology:"تقنية", Climate:"مناخ", Health:"صحة", Sports:"رياضة", Science:"علوم", Local:"محلي"},
+};
+
+const TRENDING_TOPICS = {
+  en: ["Ceasefire talks","Spectrum reform","Flood-defense bill","Vaccine guidance update","Rate hold decision"],
+  es: ["Conversaciones de alto el fuego","Reforma del espectro","Ley de defensa contra inundaciones","Actualización de directrices de vacunación","Decisión de mantener tasas"],
+  fr: ["Pourparlers de cessez-le-feu","Réforme du spectre","Loi de défense contre les inondations","Mise à jour des directives vaccinales","Maintien des taux directeurs"],
+  hi: ["संघर्ष-विराम वार्ता","स्पेक्ट्रम सुधार","बाढ़-सुरक्षा विधेयक","टीका दिशा-निर्देश अपडेट","ब्याज दर स्थिर रखने का निर्णय"],
+  ar: ["محادثات وقف إطلاق النار","إصلاح الطيف الترددي","قانون الدفاع ضد الفيضانات","تحديث إرشادات التطعيم","قرار تثبيت أسعار الفائدة"],
+};
+
+function t(key){ return (UI_STRINGS[state.lang] && UI_STRINGS[state.lang][key]) ?? UI_STRINGS.en[key]; }
+function catLabel(c){ return (CATEGORY_LABELS[state.lang] && CATEGORY_LABELS[state.lang][c]) || c; }
+
+const ARTICLES = [
+  {
+    id:1, cat:"World", title:"Regional ceasefire talks resume after week-long pause",
+    loc:"Geneva, Switzerland", pin:"1201", time:"2h ago",
+    summary:"Delegations returned to the negotiating table this morning, with mediators describing early signals as 'cautiously constructive.' No formal agreement has been signed.",
+    color1:"#4F7CFF", color2:"#A78BFA",
+    score:96, sources:[
+      {name:"Reuters", ok:true},{name:"AP", ok:true},{name:"BBC", ok:true},
+      {name:"Al Jazeera", ok:true},{name:"UN Press Office", ok:true, gov:true},{name:"Local wire (dissent)", ok:false}
+    ]
+  },
+  {
+    id:2, cat:"Technology", title:"National telecom regulator approves new spectrum rules",
+    loc:"New Delhi, India", pin:"110001", time:"4h ago",
+    summary:"The updated framework is expected to lower rollout costs for rural 5G coverage. Industry bodies broadly welcomed the move; two operators flagged pricing concerns.",
+    color1:"#22D3EE", color2:"#2563EB",
+    score:94, sources:[
+      {name:"Ministry of Telecom (PIB)", ok:true, gov:true},{name:"Times of India", ok:true},
+      {name:"Hindustan Times", ok:true},{name:"NDTV", ok:true},{name:"Economic Times", ok:true},{name:"Reuters India", ok:true}
+    ]
+  },
+  {
+    id:3, cat:"Climate", title:"Coastal flood-defense funding bill clears committee",
+    loc:"London, UK", pin:"SW1A", time:"6h ago",
+    summary:"The bill allocates emergency funds to five coastal counties. Environmental groups say the amount falls short of independent damage estimates.",
+    color1:"#34D399", color2:"#22D3EE",
+    score:91, sources:[
+      {name:"BBC", ok:true},{name:"The Guardian", ok:true},{name:"Gov.uk release", ok:true, gov:true},
+      {name:"Sky News", ok:true},{name:"Financial Times", ok:true}
+    ]
+  },
+  {
+    id:4, cat:"Health", title:"Health ministry confirms updated seasonal vaccine guidance",
+    loc:"Mumbai, India", pin:"400001", time:"5h ago",
+    summary:"Updated guidance recommends earlier booster timing for high-risk groups. Confirmed directly against the ministry's published circular.",
+    color1:"#34D399", color2:"#4F7CFF",
+    score:98, sources:[
+      {name:"Ministry of Health & FW", ok:true, gov:true},{name:"WHO Regional Office", ok:true, gov:true},
+      {name:"Hindustan Times", ok:true},{name:"The Hindu", ok:true},{name:"CNN", ok:true}
+    ]
+  },
+  {
+    id:5, cat:"Business", title:"Central bank holds interest rates, signals cautious outlook",
+    loc:"New York, USA", pin:"10001", time:"3h ago",
+    summary:"Policymakers cited mixed inflation data. Markets reacted with modest gains after the announcement.",
+    color1:"#A78BFA", color2:"#4F7CFF",
+    score:95, sources:[
+      {name:"Federal Reserve statement", ok:true, gov:true},{name:"Bloomberg", ok:true},
+      {name:"CNN", ok:true},{name:"Reuters", ok:true},{name:"Wall Street Journal", ok:true}
+    ]
+  },
+  {
+    id:6, cat:"Sports", title:"City council approves stadium renovation timeline",
+    loc:"Manchester, UK", pin:"M1", time:"8h ago",
+    summary:"Renovation is scheduled across two off-seasons to minimize disruption. Ticket pricing during construction remains under review.",
+    color1:"#22D3EE", color2:"#34D399",
+    score:88, sources:[
+      {name:"BBC Sport", ok:true},{name:"Manchester City Council", ok:true, gov:true},
+      {name:"The Times", ok:true},{name:"Sky Sports", ok:false}
+    ]
+  },
+  {
+    id:7, cat:"Science", title:"Space agency confirms successful satellite deployment",
+    loc:"Bengaluru, India", pin:"560001", time:"1h ago",
+    summary:"The satellite entered its planned orbit within expected parameters, according to a mission-control briefing.",
+    color1:"#2563EB", color2:"#A78BFA",
+    score:99, sources:[
+      {name:"ISRO official release", ok:true, gov:true},{name:"Reuters", ok:true},
+      {name:"Times of India", ok:true},{name:"BBC", ok:true},{name:"CNN", ok:true},{name:"Hindustan Times", ok:true}
+    ]
+  },
+  {
+    id:8, cat:"Politics", title:"Election commission announces revised voter roll deadline",
+    loc:"Chicago, USA", pin:"60601", time:"9h ago",
+    summary:"The extension follows requests from local officials citing processing backlogs ahead of the filing deadline.",
+    color1:"#4F7CFF", color2:"#22D3EE",
+    score:90, sources:[
+      {name:"State Election Board", ok:true, gov:true},{name:"AP", ok:true},
+      {name:"CNN", ok:true},{name:"Chicago Tribune", ok:true}
+    ]
+  },
+  {
+    id:9, cat:"Business", title:"Port authority reports record container volumes",
+    loc:"Singapore", pin:"018956", time:"3h ago",
+    summary:"Quarterly figures show a rebound in transshipment traffic, with officials crediting new automated berths.",
+    color1:"#22D3EE", color2:"#4F7CFF",
+    score:93, sources:[
+      {name:"Maritime & Port Authority", ok:true, gov:true},{name:"Reuters", ok:true},
+      {name:"Bloomberg", ok:true},{name:"Channel News Asia", ok:true}
+    ]
+  },
+  {
+    id:10, cat:"Climate", title:"Water authority lifts restrictions after reservoir levels recover",
+    loc:"Cape Town, South Africa", pin:"8001", time:"7h ago",
+    summary:"Restrictions eased for the first time in two years following above-average rainfall this season.",
+    color1:"#34D399", color2:"#4F7CFF",
+    score:92, sources:[
+      {name:"City of Cape Town", ok:true, gov:true},{name:"BBC", ok:true},
+      {name:"Reuters Africa", ok:true},{name:"Al Jazeera", ok:true}
+    ]
+  },
+  {
+    id:11, cat:"Technology", title:"Central bank pilots digital currency in three cities",
+    loc:"São Paulo, Brazil", pin:"01000-000", time:"5h ago",
+    summary:"The pilot expands testing of instant digital settlement to retail transactions for the first time.",
+    color1:"#A78BFA", color2:"#22D3EE",
+    score:89, sources:[
+      {name:"Banco Central do Brasil", ok:true, gov:true},{name:"Reuters", ok:true},
+      {name:"Folha de S.Paulo", ok:true},{name:"CNN Brasil", ok:true}
+    ]
+  },
+  {
+    id:12, cat:"World", title:"Transit authority opens new cross-harbour rail line",
+    loc:"Tokyo, Japan", pin:"100-0001", time:"2h ago",
+    summary:"The new line is expected to cut commute times by roughly a third for residents on the eastern waterfront.",
+    color1:"#4F7CFF", color2:"#A78BFA",
+    score:97, sources:[
+      {name:"Ministry of Land, Infrastructure & Transport", ok:true, gov:true},{name:"NHK", ok:true},
+      {name:"Reuters", ok:true},{name:"BBC", ok:true},{name:"Kyodo News", ok:true}
+    ]
+  },
+  {
+    id:13, cat:"Health", title:"Health department expands free screening program city-wide",
+    loc:"Sydney, Australia", pin:"2000", time:"6h ago",
+    summary:"The program extends subsidized screening to two additional districts starting next month.",
+    color1:"#34D399", color2:"#22D3EE",
+    score:94, sources:[
+      {name:"NSW Health", ok:true, gov:true},{name:"ABC News Australia", ok:true},
+      {name:"Reuters", ok:true},{name:"The Guardian", ok:true}
+    ]
+  },
+  {
+    id:14, cat:"Local", title:"City council approves new bike-lane network",
+    loc:"Toronto, Canada", pin:"M5H", time:"4h ago",
+    summary:"Construction begins next spring on a connected network linking six neighborhoods to the downtown core.",
+    color1:"#22D3EE", color2:"#34D399",
+    score:87, sources:[
+      {name:"City of Toronto", ok:true, gov:true},{name:"CBC News", ok:true},
+      {name:"Toronto Star", ok:true},{name:"CTV News", ok:false}
+    ]
+  },
+];
+
+/* Pre-written translations for article titles/summaries — see machineNote
+   in UI_STRINGS: this is prototype content, not live machine translation.
+   Falls back to English automatically if an id/lang pair is missing. */
+const TRANSLATIONS = {
+  1: {
+    es:{title:"Las conversaciones regionales de alto el fuego se reanudan tras una pausa de una semana",
+        summary:"Las delegaciones volvieron a la mesa de negociaciones esta mañana, y los mediadores describieron las primeras señales como 'cautelosamente constructivas'. No se ha firmado ningún acuerdo formal."},
+    fr:{title:"Reprise des pourparlers régionaux de cessez-le-feu après une pause d'une semaine",
+        summary:"Les délégations sont retournées à la table des négociations ce matin ; les médiateurs qualifient les premiers signaux de 'prudemment constructifs'. Aucun accord formel n'a été signé."},
+    hi:{title:"एक सप्ताह के विराम के बाद क्षेत्रीय संघर्ष-विराम वार्ता फिर से शुरू",
+        summary:"प्रतिनिधिमंडल आज सुबह बातचीत की मेज़ पर लौटे; मध्यस्थों ने शुरुआती संकेतों को 'सतर्कतापूर्वक सकारात्मक' बताया। अभी तक कोई औपचारिक समझौता नहीं हुआ है।"},
+    ar:{title:"استئناف محادثات وقف إطلاق النار الإقليمية بعد توقف دام أسبوعًا",
+        summary:"عادت الوفود إلى طاولة المفاوضات هذا الصباح، ووصف الوسطاء الإشارات الأولى بأنها 'إيجابية بحذر'. لم يتم التوقيع على أي اتفاق رسمي بعد."},
+  },
+  2: {
+    es:{title:"El regulador nacional de telecomunicaciones aprueba nuevas normas de espectro",
+        summary:"Se espera que el marco actualizado reduzca los costos de implementación de la cobertura 5G rural. Los organismos del sector recibieron la medida con agrado; dos operadores manifestaron preocupación por los precios."},
+    fr:{title:"Le régulateur national des télécommunications approuve de nouvelles règles sur le spectre",
+        summary:"Le nouveau cadre devrait réduire les coûts de déploiement de la couverture 5G rurale. Les organismes du secteur ont globalement salué la mesure ; deux opérateurs ont exprimé des inquiétudes sur les prix."},
+    hi:{title:"राष्ट्रीय दूरसंचार नियामक ने नए स्पेक्ट्रम नियमों को मंज़ूरी दी",
+        summary:"उम्मीद है कि नया ढांचा ग्रामीण 5G कवरेज की लागत घटाएगा। उद्योग संगठनों ने इसका स्वागत किया; दो ऑपरेटरों ने मूल्य निर्धारण को लेकर चिंता जताई।"},
+    ar:{title:"الهيئة الوطنية لتنظيم الاتصالات توافق على قواعد جديدة للطيف الترددي",
+        summary:"من المتوقع أن يخفض الإطار المحدث تكاليف نشر تغطية الجيل الخامس في المناطق الريفية. رحبت الجهات الصناعية بالخطوة بشكل عام، بينما أبدى مشغلان قلقهما بشأن التسعير."},
+  },
+  3: {
+    es:{title:"El proyecto de ley de financiación para defensas contra inundaciones costeras supera el comité",
+        summary:"La ley asigna fondos de emergencia a cinco condados costeros. Grupos ambientalistas afirman que el monto no alcanza las estimaciones independientes de daños."},
+    fr:{title:"Le projet de loi sur le financement des défenses côtières contre les inondations franchit l'étape de la commission",
+        summary:"Le texte alloue des fonds d'urgence à cinq comtés côtiers. Des associations environnementales estiment que le montant reste inférieur aux estimations indépendantes des dégâts."},
+    hi:{title:"तटीय बाढ़-सुरक्षा वित्तपोषण विधेयक समिति से पारित",
+        summary:"यह विधेयक पांच तटीय काउंटी को आपातकालीन धनराशि आवंटित करता है। पर्यावरण समूहों का कहना है कि यह राशि स्वतंत्र क्षति अनुमानों से कम है।"},
+    ar:{title:"مشروع قانون تمويل الدفاعات الساحلية ضد الفيضانات يجتاز اللجنة",
+        summary:"يخصص مشروع القانون أموالاً طارئة لخمس مقاطعات ساحلية. وتقول جماعات بيئية إن المبلغ أقل من التقديرات المستقلة للأضرار."},
+  },
+  4: {
+    es:{title:"El ministerio de salud confirma directrices actualizadas sobre la vacuna estacional",
+        summary:"Las nuevas directrices recomiendan adelantar la dosis de refuerzo para grupos de alto riesgo. Confirmado directamente con la circular publicada por el ministerio."},
+    fr:{title:"Le ministère de la Santé confirme de nouvelles directives sur le vaccin saisonnier",
+        summary:"Les nouvelles directives recommandent une dose de rappel plus précoce pour les groupes à haut risque. Confirmé directement à partir de la circulaire publiée par le ministère."},
+    hi:{title:"स्वास्थ्य मंत्रालय ने मौसमी टीके पर अद्यतन दिशा-निर्देशों की पुष्टि की",
+        summary:"नए दिशा-निर्देशों में उच्च जोखिम वाले समूहों के लिए बूस्टर खुराक जल्दी देने की सिफारिश की गई है। मंत्रालय के प्रकाशित परिपत्र से सीधे पुष्टि की गई।"},
+    ar:{title:"وزارة الصحة تؤكد إرشادات محدثة بشأن اللقاح الموسمي",
+        summary:"توصي الإرشادات المحدثة بتقديم الجرعة المعززة في وقت أبكر للفئات الأكثر عرضة للخطر. تم التأكد منها مباشرة من التعميم الرسمي الصادر عن الوزارة."},
+  },
+  5: {
+    es:{title:"El banco central mantiene las tasas de interés y señala una perspectiva cautelosa",
+        summary:"Los responsables de la política citaron datos de inflación mixtos. Los mercados reaccionaron con ganancias moderadas tras el anuncio."},
+    fr:{title:"La banque centrale maintient ses taux d'intérêt et adopte un ton prudent",
+        summary:"Les décideurs ont invoqué des données d'inflation contrastées. Les marchés ont réagi par des gains modestes après l'annonce."},
+    hi:{title:"केंद्रीय बैंक ने ब्याज दरें स्थिर रखीं, सतर्क दृष्टिकोण के संकेत दिए",
+        summary:"नीति निर्माताओं ने मिश्रित मुद्रास्फीति आंकड़ों का हवाला दिया। घोषणा के बाद बाजारों में मामूली बढ़त देखी गई।"},
+    ar:{title:"البنك المركزي يبقي على أسعار الفائدة ويشير إلى نظرة حذرة",
+        summary:"أشار صانعو السياسات إلى بيانات تضخم متباينة. وسجلت الأسواق مكاسب طفيفة عقب الإعلان."},
+  },
+  6: {
+    es:{title:"El ayuntamiento aprueba el cronograma de renovación del estadio",
+        summary:"La renovación está programada en dos temporadas bajas para minimizar las interrupciones. El precio de las entradas durante la construcción sigue en revisión."},
+    fr:{title:"Le conseil municipal approuve le calendrier de rénovation du stade",
+        summary:"Les travaux sont prévus sur deux intersaisons afin de limiter les perturbations. Le prix des billets pendant les travaux est encore à l'étude."},
+    hi:{title:"नगर परिषद ने स्टेडियम नवीनीकरण की समयसीमा को मंज़ूरी दी",
+        summary:"व्यवधान कम करने के लिए नवीनीकरण दो ऑफ-सीज़न में किया जाएगा। निर्माण के दौरान टिकट मूल्य पर अभी समीक्षा जारी है।"},
+    ar:{title:"المجلس البلدي يوافق على الجدول الزمني لتجديد الملعب",
+        summary:"من المقرر إجراء التجديد على مدى موسمين خارج الفترة الرياضية للتقليل من الإزعاج. ولا تزال أسعار التذاكر خلال أعمال البناء قيد المراجعة."},
+  },
+  7: {
+    es:{title:"La agencia espacial confirma el despliegue exitoso del satélite",
+        summary:"El satélite entró en la órbita prevista dentro de los parámetros esperados, según informó el centro de control de misión."},
+    fr:{title:"L'agence spatiale confirme le déploiement réussi du satellite",
+        summary:"Le satellite a atteint son orbite prévue dans les paramètres attendus, selon un point du centre de contrôle de mission."},
+    hi:{title:"अंतरिक्ष एजेंसी ने उपग्रह की सफल तैनाती की पुष्टि की",
+        summary:"मिशन-नियंत्रण की जानकारी के अनुसार, उपग्रह अपेक्षित मापदंडों के भीतर नियोजित कक्षा में प्रवेश कर गया।"},
+    ar:{title:"وكالة الفضاء تؤكد نجاح نشر القمر الصناعي",
+        summary:"دخل القمر الصناعي مداره المخطط له ضمن المعايير المتوقعة، وفقًا لإحاطة من مركز التحكم بالمهمة."},
+  },
+  8: {
+    es:{title:"La comisión electoral anuncia una fecha límite revisada para el padrón electoral",
+        summary:"La prórroga responde a solicitudes de funcionarios locales que citaron retrasos en el procesamiento antes de la fecha límite."},
+    fr:{title:"La commission électorale annonce une nouvelle date limite pour les listes électorales",
+        summary:"Cette prolongation fait suite aux demandes de responsables locaux invoquant des retards de traitement avant l'échéance."},
+    hi:{title:"चुनाव आयोग ने मतदाता सूची की संशोधित समयसीमा की घोषणा की",
+        summary:"यह विस्तार स्थानीय अधिकारियों के अनुरोध के बाद दिया गया, जिन्होंने समय सीमा से पहले प्रक्रिया में देरी का हवाला दिया।"},
+    ar:{title:"لجنة الانتخابات تعلن عن موعد نهائي منقح لقوائم الناخبين",
+        summary:"يأتي التمديد بعد طلبات من مسؤولين محليين أشاروا إلى تراكم في المعالجة قبل الموعد النهائي لتقديم الطلبات."},
+  },
+  9: {
+    es:{title:"La autoridad portuaria reporta un volumen récord de contenedores",
+        summary:"Las cifras trimestrales muestran una recuperación en el tráfico de transbordo, que los funcionarios atribuyen a los nuevos muelles automatizados."},
+    fr:{title:"L'autorité portuaire annonce un volume record de conteneurs",
+        summary:"Les chiffres trimestriels montrent une reprise du trafic de transbordement, que les autorités attribuent aux nouveaux quais automatisés."},
+    hi:{title:"बंदरगाह प्राधिकरण ने रिकॉर्ड कंटेनर मात्रा की रिपोर्ट दी",
+        summary:"तिमाही आंकड़े ट्रांसशिपमेंट यातायात में सुधार दिखाते हैं; अधिकारियों ने इसका श्रेय नए स्वचालित बर्थ को दिया।"},
+    ar:{title:"هيئة الميناء تسجل أرقامًا قياسية في حجم الحاويات",
+        summary:"تُظهر الأرقام الفصلية انتعاشًا في حركة نقل البضائع، ويعزو المسؤولون ذلك إلى الأرصفة الآلية الجديدة."},
+  },
+  10: {
+    es:{title:"La autoridad hídrica levanta las restricciones tras la recuperación de los niveles de los embalses",
+        summary:"Las restricciones se relajaron por primera vez en dos años tras lluvias superiores al promedio esta temporada."},
+    fr:{title:"L'autorité de l'eau lève les restrictions après la remontée du niveau des réservoirs",
+        summary:"Les restrictions ont été assouplies pour la première fois en deux ans après des précipitations supérieures à la moyenne cette saison."},
+    hi:{title:"जलाशयों का स्तर सुधरने के बाद जल प्राधिकरण ने प्रतिबंध हटाए",
+        summary:"इस मौसम में औसत से अधिक वर्षा के बाद दो वर्षों में पहली बार प्रतिबंधों में ढील दी गई।"},
+    ar:{title:"هيئة المياه ترفع القيود بعد تحسّن مستويات الخزانات",
+        summary:"تم تخفيف القيود لأول مرة منذ عامين بعد هطول أمطار فوق المعدل هذا الموسم."},
+  },
+  11: {
+    es:{title:"El banco central pone a prueba una moneda digital en tres ciudades",
+        summary:"El piloto amplía por primera vez las pruebas de liquidación digital instantánea a transacciones minoristas."},
+    fr:{title:"La banque centrale teste une monnaie numérique dans trois villes",
+        summary:"Le projet pilote étend pour la première fois les tests de règlement numérique instantané aux transactions de détail."},
+    hi:{title:"केंद्रीय बैंक ने तीन शहरों में डिजिटल मुद्रा का परीक्षण शुरू किया",
+        summary:"यह पायलट पहली बार तत्काल डिजिटल निपटान के परीक्षण को खुदरा लेनदेन तक विस्तारित करता है।"},
+    ar:{title:"البنك المركزي يجرب عملة رقمية في ثلاث مدن",
+        summary:"يوسّع المشروع التجريبي اختبار التسوية الرقمية الفورية ليشمل معاملات التجزئة لأول مرة."},
+  },
+  12: {
+    es:{title:"La autoridad de transporte inaugura una nueva línea ferroviaria que cruza la bahía",
+        summary:"Se espera que la nueva línea reduzca en aproximadamente un tercio el tiempo de traslado de los residentes del litoral este."},
+    fr:{title:"L'autorité des transports inaugure une nouvelle ligne ferroviaire traversant la baie",
+        summary:"La nouvelle ligne devrait réduire d'environ un tiers le temps de trajet des habitants de la façade maritime est."},
+    hi:{title:"परिवहन प्राधिकरण ने बंदरगाह-पार नई रेल लाइन शुरू की",
+        summary:"उम्मीद है कि नई लाइन पूर्वी तटवर्ती इलाके के निवासियों के आवागमन समय को लगभग एक-तिहाई कम कर देगी।"},
+    ar:{title:"هيئة النقل تفتتح خط سكة حديد جديد يعبر الميناء",
+        summary:"من المتوقع أن يقلص الخط الجديد وقت التنقل بمقدار الثلث تقريبًا لسكان الواجهة البحرية الشرقية."},
+  },
+  13: {
+    es:{title:"El departamento de salud amplía el programa de exámenes gratuitos a toda la ciudad",
+        summary:"El programa extiende los exámenes subsidiados a dos distritos adicionales a partir del próximo mes."},
+    fr:{title:"Le département de la santé étend son programme de dépistage gratuit à toute la ville",
+        summary:"Le programme étend le dépistage subventionné à deux districts supplémentaires à partir du mois prochain."},
+    hi:{title:"स्वास्थ्य विभाग ने निःशुल्क जांच कार्यक्रम पूरे शहर में विस्तारित किया",
+        summary:"यह कार्यक्रम अगले महीने से दो और जिलों में सब्सिडी प्राप्त जांच सुविधा प्रदान करेगा।"},
+    ar:{title:"إدارة الصحة توسّع برنامج الفحص المجاني ليشمل المدينة بأكملها",
+        summary:"يوسّع البرنامج الفحص المدعوم ليشمل حيين إضافيين ابتداءً من الشهر المقبل."},
+  },
+  14: {
+    es:{title:"El ayuntamiento aprueba una nueva red de carriles para bicicletas",
+        summary:"La construcción comenzará la próxima primavera con una red conectada que unirá seis barrios con el centro de la ciudad."},
+    fr:{title:"Le conseil municipal approuve un nouveau réseau de pistes cyclables",
+        summary:"Les travaux débuteront au printemps prochain sur un réseau reliant six quartiers au centre-ville."},
+    hi:{title:"नगर परिषद ने नए साइकिल-लेन नेटवर्क को मंज़ूरी दी",
+        summary:"अगले वसंत में निर्माण शुरू होगा, जो छह पड़ोसों को शहर के केंद्र से जोड़ने वाला एक जुड़ा हुआ नेटवर्क बनाएगा।"},
+    ar:{title:"المجلس البلدي يوافق على شبكة جديدة لمسارات الدراجات",
+        summary:"يبدأ البناء في الربيع المقبل على شبكة متصلة تربط ستة أحياء بوسط المدينة."},
+  },
+};
+
+function getField(article, field){
+  if(article._live) return article[field]; // already resolved server-side via ?lang=
+  const tr = TRANSLATIONS[article.id];
+  if(state.lang !== "en" && tr && tr[state.lang] && tr[state.lang][field]) return tr[state.lang][field];
+  return article[field];
+}
+
+/* ---------------- LIVE BACKEND (progressive enhancement) ---------------- */
+let LIVE_ARTICLES = null;
+let isLive = false;
+
+const PALETTE = [["#4F7CFF","#A78BFA"],["#22D3EE","#2563EB"],["#34D399","#22D3EE"],
+                 ["#A78BFA","#4F7CFF"],["#2563EB","#A78BFA"]];
+
+function mapApiStory(s, idx){
+  return {
+    id: s.id, _live: true,
+    cat: s.category, title: s.title, summary: s.summary,
+    loc: s.location_name || "—", pin: s.pincode || "", time: "",
+    color1: PALETTE[idx % PALETTE.length][0], color2: PALETTE[idx % PALETTE.length][1],
+    score: Math.round(s.score),
+    sources: (s.sources || []).map(src => ({ name: src.source_name, ok: src.agrees !== false, gov: !!src.is_official })),
+  };
+}
+
+async function tryLoadLive(){
+  try{
+    const res = await fetch(`/stories?lang=${encodeURIComponent(state.lang)}`, { signal: AbortSignal.timeout(2500) });
+    if(!res.ok) throw new Error('backend not reachable');
+    const data = await res.json();
+    if(Array.isArray(data) && data.length > 0){
+      LIVE_ARTICLES = data.map(mapApiStory);
+      isLive = true;
+    } else {
+      isLive = false;
+    }
+  } catch(e){
+    isLive = false;
+  }
+  updateDataBadge();
+}
+
+function currentArticles(){ return (isLive && LIVE_ARTICLES) ? LIVE_ARTICLES : ARTICLES; }
+
+function updateDataBadge(){
+  const el = document.getElementById('dataBadge');
+  if(el){
+    el.textContent = isLive ? '🟢 LIVE — connected to backend' : '◌ DEMO DATA — backend not connected';
+    el.style.color = isLive ? 'var(--a4)' : 'var(--text-dim)';
+  }
+  const numEl = document.getElementById('hudNumStories');
+  if(numEl) numEl.textContent = currentArticles().length;
+}
+
+/* ---------------- STATE ---------------- */
+let state = { cat:"All", query:"", loc:"", lang:"en" };
+
+/* ---------------- RENDER ---------------- */
+function trustColor(score){
+  if(score>=95) return "#3ddc84";
+  if(score>=88) return "#00E5FF";
+  return "#FF7A2F";
+}
+function trustBars(score){
+  const total = 6;
+  const filled = Math.round((score/100)*total);
+  let html = "";
+  for(let i=0;i<total;i++){
+    html += `<i class="${i<filled?'on':''}" style="--tc:${trustColor(score)}"></i>`;
+  }
+  return html;
+}
+
+function renderCats(){
+  const bar = document.getElementById('catBar');
+  bar.innerHTML = CATEGORIES.map(c =>
+    `<button class="cat-pill ${c===state.cat?'active':''}" data-cat="${c}">${catLabel(c)}</button>`
+  ).join('');
+  bar.querySelectorAll('.cat-pill').forEach(btn=>{
+    btn.addEventListener('click', ()=>{ state.cat = btn.dataset.cat; renderCats(); renderFeed(); });
+  });
+}
+
+function renderTrend(){
+  const topics = TRENDING_TOPICS[state.lang] || TRENDING_TOPICS.en;
+  document.getElementById('trendList').innerHTML = topics.map((topic,i)=>
+    `<div class="trend-item"><span>${topic}</span><b>#${i+1}</b></div>`
+  ).join('');
+}
+
+function matches(a){
+  const q = state.query.trim().toLowerCase();
+  const loc = state.loc.trim().toLowerCase();
+  const title = getField(a,'title').toLowerCase();
+  const summary = getField(a,'summary').toLowerCase();
+  const catOk = state.cat==="All" || a.cat===state.cat;
+  const qOk = !q || title.includes(q) || summary.includes(q)
+              || a.title.toLowerCase().includes(q) || a.summary.toLowerCase().includes(q);
+  const locOk = !loc || a.loc.toLowerCase().includes(loc) || (a.pin||'').toLowerCase().includes(loc);
+  return catOk && qOk && locOk;
+}
+
+function renderFeed(){
+  const list = currentArticles().filter(matches);
+  const feed = document.getElementById('feed');
+  if(list.length===0){
+    const uniqueLocs = [...new Set(currentArticles().map(a=>a.loc.split(',')[0]))];
+    feed.innerHTML = `
+      <div style="grid-column:1/-1; padding:40px 20px; text-align:center;">
+        <div style="color:var(--text-dim); margin-bottom:14px;">
+          ${t('noMatch')}
+        </div>
+        <div style="display:flex; gap:8px; flex-wrap:wrap; justify-content:center;">
+          ${uniqueLocs.map(l=>`<button class="cat-pill suggest-loc" data-loc="${l}">${l}</button>`).join('')}
+        </div>
+      </div>`;
+    feed.querySelectorAll('.suggest-loc').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        document.getElementById('pinInput').value = btn.dataset.loc;
+        state.loc = btn.dataset.loc;
+        renderFeed();
+      });
+    });
+    return;
+  }
+  feed.innerHTML = list.map(a => `
+    <div class="card" data-id="${a.id}">
+      <div class="card-art" style="background:linear-gradient(135deg, ${a.color1}, ${a.color2})">
+        <span class="tag">${catLabel(a.cat)}</span>
+      </div>
+      <div class="card-body">
+        <div class="card-title">${getField(a,'title')}</div>
+        <div class="card-sum">${getField(a,'summary')}</div>
+        <div class="card-meta mono">
+          <span>${a.loc} · ${a.time}</span>
+          <span class="trust"><span class="trust-bars">${trustBars(a.score)}</span><span class="trust-txt" style="color:${trustColor(a.score)}">${a.score}%</span></span>
+        </div>
+      </div>
+    </div>
+  `).join('');
+  feed.querySelectorAll('.card').forEach(c=>{
+    c.addEventListener('click', ()=> openModal(parseInt(c.dataset.id)));
+  });
+}
+
+function openModal(id){
+  const a = currentArticles().find(x=>x.id===id);
+  const okCount = a.sources.filter(s=>s.ok).length;
+  document.getElementById('modalContent').innerHTML = `
+    <div class="modal-art" style="background:linear-gradient(135deg, ${a.color1}, ${a.color2})">
+      <button class="modal-close" id="closeModal">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-title">${getField(a,'title')}</div>
+      <div class="modal-loc mono">${a.loc} · ${a.pin} · ${a.time} · ${catLabel(a.cat)}</div>
+      <div class="modal-sum">${getField(a,'summary')}</div>
+      <div class="verify-panel">
+        <div class="verify-head">
+          <span class="mono" style="font-size:11px; color:var(--text-dim); letter-spacing:1px;">${t('verifyScore')}</span>
+          <span class="verify-score" style="color:${trustColor(a.score)}">${a.score}%</span>
+        </div>
+        <div class="meter"><div class="meter-fill" style="width:${a.score}%"></div></div>
+        <div class="source-list mono">
+          ${a.sources.map(s=>`
+            <div class="source-item">
+              <span>${s.name}${s.gov?` <span class="gov">(${t('official')})</span>`:''}</span>
+              <span class="${s.ok?'ok':''}" style="color:${s.ok?'#3ddc84':'#FF7A2F'}">${s.ok?'✓ '+t('confirms'):'⚠ '+t('differs')}</span>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+      <div class="note">${t('note')(okCount, a.sources.length)}</div>
+    </div>
+  `;
+  document.getElementById('overlay').classList.add('open');
+  document.getElementById('closeModal').addEventListener('click', closeModal);
+}
+function closeModal(){ document.getElementById('overlay').classList.remove('open'); }
+document.getElementById('overlay').addEventListener('click', (e)=>{ if(e.target.id==='overlay') closeModal(); });
+
+/* ---------------- SEARCH / LOCATION ---------------- */
+document.getElementById('searchInput').addEventListener('input', e=>{ state.query = e.target.value; renderFeed(); });
+document.getElementById('pinInput').addEventListener('input', e=>{ state.loc = e.target.value; renderFeed(); });
+
+/* ---------------- THEME ---------------- */
+const themeBtns = document.querySelectorAll('.theme-btn');
+const hueSlider = document.getElementById('hueSlider');
+function setTheme(mode){
+  themeBtns.forEach(b=>b.classList.toggle('active', b.dataset.themeBtn===mode));
+  hueSlider.classList.toggle('show', mode==='custom');
+  if(mode==='custom'){
+    document.body.setAttribute('data-theme','dark');
+    applyHue(hueSlider.value);
+  } else {
+    document.body.style.removeProperty('--a1');
+    document.body.style.removeProperty('--a2');
+    document.body.style.removeProperty('--a3');
+    document.body.style.removeProperty('--a4');
+    document.body.setAttribute('data-theme', mode);
+  }
+}
+function applyHue(h){
+  h = parseInt(h);
+  document.body.style.setProperty('--a1', `hsl(${h},90%,60%)`);
+  document.body.style.setProperty('--a2', `hsl(${(h+140)%360},90%,55%)`);
+  document.body.style.setProperty('--a3', `hsl(${(h+40)%360},90%,58%)`);
+  document.body.style.setProperty('--a4', `hsl(${(h+260)%360},80%,60%)`);
+}
+themeBtns.forEach(b=> b.addEventListener('click', ()=> setTheme(b.dataset.themeBtn)));
+hueSlider.addEventListener('input', ()=> applyHue(hueSlider.value));
+
+/* ---------------- LANGUAGE ---------------- */
+function applyChrome(){
+  document.getElementById('searchInput').placeholder = t('searchPlaceholder');
+  document.getElementById('pinInput').placeholder = t('locPlaceholder');
+  document.getElementById('heroTitle').innerHTML =
+    `${t('heroLine1')}<br><span class="grad" id="heroTitleAccent">${t('heroAccent')}</span>`;
+  document.getElementById('heroSub').textContent = t('heroSub');
+  document.getElementById('hudLabel1').textContent = t('hud1');
+  document.getElementById('hudLabel2').textContent = t('hud2');
+  document.getElementById('hudLabel3').textContent = t('hud3');
+  document.getElementById('hudLabel4').textContent = t('hud4');
+  document.getElementById('sideTitleTrending').textContent = t('trending');
+  document.getElementById('sideTitleHow').textContent = t('howWorks');
+  document.getElementById('howText').textContent = t('howText');
+  document.getElementById('footerText').textContent = t('footer');
+  document.body.setAttribute('dir', state.lang === 'ar' ? 'rtl' : 'ltr');
+}
+
+const langSelect = document.getElementById('langSelect');
+langSelect.innerHTML = LANGUAGES.map(l => `<option value="${l.code}">${l.label}</option>`).join('');
+langSelect.value = state.lang;
+langSelect.addEventListener('change', async e=>{
+  state.lang = e.target.value;
+  applyChrome();
+  renderCats();
+  if(isLive) await tryLoadLive();
+  renderTrend();
+  renderFeed();
+});
+
+/* ---------------- INIT ---------------- */
+applyChrome();
+renderCats();
+renderTrend();
+renderFeed();
+tryLoadLive().then(renderFeed);
+</script>
+</body>
+</html>
